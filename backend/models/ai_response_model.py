@@ -1,7 +1,8 @@
 import openai
 import time
+import os
 
-openai.api_key = "your-api-key-here"  # Alternatively, use os.getenv("OPENAI_API_KEY")
+openai.api_key = os.getenv("OPENAI_API_KEY")  # Alternatively, use os.getenv("OPENAI_API_KEY")
 
 assistant = openai.beta.assistants.create(
     name="Paper Grader",
