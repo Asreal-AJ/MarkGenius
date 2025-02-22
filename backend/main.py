@@ -8,10 +8,6 @@ import uvicorn
 # supabase: Client = create_client(url, key)
 
 
-# @app.post("/resource/upload")
-# async def handle_file_upload(upload_file: UploadFile = File(...)):
-#     print(upload_file.filename)
-
 """
 memory_db = {"responses": []}
 

@@ -1,14 +1,9 @@
-import CollapsibleSidebar from "./components /ActionSidePanel.jsx";
+import FileUploader from "./components /UploadRubricForm.jsx";
 
 export default function App() {
-  /*return (
-    <div>
-      <FileUploader />
-    </div>
-  );*/
     return (
         <div>
-            <CollapsibleSidebar />
+            <FileUploader/>
         </div>
-  );
+    )
 }

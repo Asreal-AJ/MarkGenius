@@ -1,10 +1,11 @@
 import api from "../api.js";
-import { useState } from 'react';
+import { useState } from "react";
 
 export default function FileUploader() {
   const [file, setFile] = useState(null);
-  const [status, setStatus] = useState('idle');
+  const [status, setStatus] = useState("idle");
   const [uploadProgress, setUploadProgress] = useState(0);
+  const [uploadType, setUploadType] = useState("example"); // Default selection
 
   function handleFileChange(e) {
     if (e.target.files.length > 0) {
@@ -15,16 +16,18 @@ export default function FileUploader() {
   async function handleFileUpload() {
     if (!file) return;
 
-    setStatus('uploading');
+    setStatus("uploading");
     setUploadProgress(0);
 
     const formData = new FormData();
-    formData.append('upload_file', file);
+    formData.append("upload_file", file);
+
+    const endpoint = uploadType === "example" ? "/upload/resource/example" : "/upload/resource/markscheme";
 
     try {
-      await api.post('/resource/upload', formData, {
+      await api.post(endpoint, formData, {
         headers: {
-          'Content-Type': 'multipart/form-data',
+          "Content-Type": "multipart/form-data",
         },
         onUploadProgress: (progressEvent) => {
           const progress = progressEvent.total
@@ -34,16 +37,31 @@ export default function FileUploader() {
         },
       });
 
-      setStatus('success');
+      setStatus("success");
       setUploadProgress(100);
     } catch {
-      setStatus('error');
+      setStatus("error");
       setUploadProgress(0);
     }
   }
 
   return (
     <div className="space-y-2">
+      <div className="flex space-x-4">
+        <button
+          className={`px-4 py-2 border ${uploadType === "example" ? "bg-blue-600 text-white" : "bg-gray-200"}`}
+          onClick={() => setUploadType("example")}
+        >
+          Upload Example File
+        </button>
+        <button
+          className={`px-4 py-2 border ${uploadType === "rubric" ? "bg-blue-600 text-white" : "bg-gray-200"}`}
+          onClick={() => setUploadType("rubric")}
+        >
+          Upload Rubric File
+        </button>
+      </div>
+
       <input type="file" onChange={handleFileChange} />
 
       {file && (
@@ -54,7 +72,7 @@ export default function FileUploader() {
         </div>
       )}
 
-      {status === 'uploading' && (
+      {status === "uploading" && (
         <div className="space-y-2">
           <div className="h-2.5 w-full rounded-full bg-gray-200">
             <div
@@ -66,15 +84,17 @@ export default function FileUploader() {
         </div>
       )}
 
-      {file && status !== 'uploading' && (
-        <button onClick={handleFileUpload}>Upload</button>
+      {file && status !== "uploading" && (
+        <button onClick={handleFileUpload} className="px-4 py-2 bg-green-500 text-white rounded">
+          Upload
+        </button>
       )}
 
-      {status === 'success' && (
+      {status === "success" && (
         <p className="text-sm text-green-600">File uploaded successfully!</p>
       )}
 
-      {status === 'error' && (
+      {status === "error" && (
         <p className="text-sm text-red-600">Upload failed. Please try again.</p>
       )}
     </div>
