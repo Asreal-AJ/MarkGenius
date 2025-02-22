@@ -38,7 +38,7 @@ def grade_inputted_text(text, example_filename, rubric_filename):
     openai.beta.threads.messages.create(
         thread_id=thread.id,
         role="user",
-        content=f"Grade the following text using the rubric and example document:\n\n{text}",
+        content=f"{text}",
         attachments=[
             {"file_id": rubric_file_id, "tools": [{"type": "file_search"}]},
             {"file_id": example_file_id, "tools": [{"type": "file_search"}]}
@@ -47,7 +47,8 @@ def grade_inputted_text(text, example_filename, rubric_filename):
 
     request = openai.beta.threads.runs.create(
         thread_id=thread.id,
-        assistant_id=assistant.id
+        assistant_id=assistant.id,
+        instructions="Evaluate the following text using the provided rubric and example document. Assign a score based on the rubric's criteria. Identify areas for improvement by analyzing each section individually, rather than providing general feedback for the entire text."
     )
 
     return request
