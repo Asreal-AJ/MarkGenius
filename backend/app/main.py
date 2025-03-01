@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from backend.api.routes.google_docs_api import google_router, user_files, get_doc_content, parse_google_doc_content
 from backend.api.routes.resource_upload_api import file_upload_router, uploaded_files
-from backend.models.ai_response_model import grade_inputted_text, get_feedback
+from backend.models.ai_assistance_grader import grade_inputted_text, get_feedback
 
 app = FastAPI(title='MarkGenius')
 app.include_router(google_router)
@@ -26,6 +26,7 @@ print("✅ CORS middleware added!")
 def index():
     return {"status": "MarkGenius is running"}
 
+#FOR TESTING
 @app.get("/grade")
 def run_grade_function():
     if "documents" not in user_files:

@@ -5,6 +5,7 @@ from fastapi import APIRouter, Query
 from fastapi.responses import RedirectResponse
 from google_auth_oauthlib.flow import Flow
 from googleapiclient.discovery import build
+from google.auth.transport.requests import Request
 
 google_router = APIRouter(prefix="/google", tags=["google"])
 
@@ -41,44 +42,19 @@ def login():
 
 @google_router.get("/auth/callback")
 def auth_callback(code: str):
-    flow = get_google_flow()
-    flow.redirect_uri = REDIRECT_URI
-    flow.fetch_token(code=code)
-
-    credentials = flow.credentials
-    user_sessions["user"] = credentials
-    return {"message": "Authentication successful! You can now retrieve your documents."}
+    return store_user_credentials(code)
 
 @google_router.get("/get/docs")
 def get_docs():
-    if "user" not in user_sessions:
-        return {"error": "User not authenticated"}
+    return fetch_user_documents("user")
 
-    credentials = user_sessions["user"]
-    if credentials.expired and credentials.refresh_token:
-        from google.auth.transport.requests import Request
-        credentials.refresh(Request())
-        user_sessions["user"] = credentials
-
-    service = build("drive", "v3", credentials=credentials)
-
-    try:
-        results = service.files().list(q="mimeType='application/vnd.google-apps.document'", fields="files(id, name)").execute()
-        files = results.get("files", [])
-    except Exception as e:
-        return {"error": str(e)}
-
-    user_files["documents"] = files
-    return {"success": "Files have been saved!", "files": files}
-
-def get_doc_content(doc_id: str = Query(..., description="Google Docs file ID")):
+def read_google_document_content(doc_id: str = Query(..., description="Google Docs file ID")):
     if "user" not in user_sessions:
         return {"error": "User not authenticated"}
 
     credentials = user_sessions["user"]
 
     if credentials.expired and credentials.refresh_token:
-        from google.auth.transport.requests import Request
         credentials.refresh(Request())
         user_sessions["user"] = credentials
 
@@ -103,3 +79,32 @@ def parse_google_doc_content(document):
                 if "textRun" in paragraph_element:
                     content += paragraph_element["textRun"]["content"]
     return content.strip()
+
+def fetch_user_documents(user_id: str):
+    if user_id not in user_sessions:
+        return {"error": "User not authenticated"}
+
+    credentials = user_sessions[user_id]
+    if credentials.expired and credentials.refresh_token:
+        credentials.refresh(Request())
+        user_sessions[user_id] = credentials
+
+    service = build("drive", "v3", credentials=credentials)
+
+    try:
+        results = service.files().list(q="mimeType='application/vnd.google-apps.document'", fields="files(id, name)").execute()
+        files = results.get("files", [])
+    except Exception as e:
+        return {"error": str(e)}
+
+    user_files["documents"] = files
+    return {"success": "Files have been saved!", "files": files}
+
+def store_user_credentials(code: str):
+    flow = get_google_flow()
+    flow.redirect_uri = REDIRECT_URI
+    flow.fetch_token(code=code)
+
+    credentials = flow.credentials
+    user_sessions["user"] = credentials
+    return {"message": "Authentication successful! You can now retrieve your documents."}
