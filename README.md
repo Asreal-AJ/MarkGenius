@@ -21,6 +21,6 @@ ___
 
 **Backend**
 - 
-- Python Backend
+- Springboot & Springboot AI
 - MongoDB Database
-- ChatGPT AI
+- OpenAI API
