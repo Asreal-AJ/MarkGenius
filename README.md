@@ -3,7 +3,7 @@ MarkGenius is a platform that allows users to upload school essays and receive i
 ___
 
 # Features 
-- [ ] Connect with Google Docs and allow you to edit documents 
+- [x] Connect with Google Docs and allow you to edit documents 
 - [ ] Upload MarkSchemes were the AI will grade your work based on the MarkScheme and give feedback
 - [ ] Will give specific feedback on sections and give an overall grade
 - [ ] Allows you to generate improvements that go under the radar 
