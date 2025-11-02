@@ -1,4 +1,4 @@
-package me.asreal.markgenius.service;
+package me.asreal.markgenius.service.impl;
 
 import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;

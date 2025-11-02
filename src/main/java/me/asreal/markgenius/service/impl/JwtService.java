@@ -1,4 +1,4 @@
-package me.asreal.markgenius.service;
+package me.asreal.markgenius.service.impl;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

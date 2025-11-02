@@ -2,7 +2,7 @@ package me.asreal.markgenius.controller;
 
 import lombok.RequiredArgsConstructor;
 import me.asreal.markgenius.entity.UserAccount;
-import me.asreal.markgenius.service.UserService;
+import me.asreal.markgenius.service.impl.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;

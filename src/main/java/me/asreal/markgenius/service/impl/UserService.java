@@ -1,4 +1,4 @@
-package me.asreal.markgenius.service;
+package me.asreal.markgenius.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import me.asreal.markgenius.entity.UserAccount;

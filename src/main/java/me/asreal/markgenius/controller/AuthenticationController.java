@@ -6,8 +6,8 @@ import me.asreal.markgenius.dto.RegisterUserDto;
 import me.asreal.markgenius.dto.VerifyUserDto;
 import me.asreal.markgenius.entity.UserAccount;
 import me.asreal.markgenius.responses.LoginResponse;
-import me.asreal.markgenius.service.AuthenticationService;
-import me.asreal.markgenius.service.JwtService;
+import me.asreal.markgenius.service.impl.AuthenticationService;
+import me.asreal.markgenius.service.impl.JwtService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
