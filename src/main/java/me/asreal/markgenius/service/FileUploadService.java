@@ -6,6 +6,8 @@ public interface FileUploadService {
 
     String uploadFile(MultipartFile file);
 
+    void createFolder(String folderName);
+
     boolean removeFile(String imageUrl);
 
 }

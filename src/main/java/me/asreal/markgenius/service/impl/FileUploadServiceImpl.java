@@ -49,6 +49,20 @@ public class FileUploadServiceImpl implements FileUploadService {
     }
 
     @Override
+    public void createFolder(String folderName) {
+        //Handle exceptions
+        var request = PutObjectRequest.builder()
+                .bucket(bucketName)
+                .key(folderName)
+                .build();
+        var response = s3Client.putObject(request, RequestBody.empty());
+        //Check if the response is successful
+        if (!response.sdkHttpResponse().isSuccessful()) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "An error occurred while creating folder");
+        }
+    }
+
+    @Override
     public boolean removeFile(String imageUrl) {
         var fileName =  imageUrl.substring(imageUrl.lastIndexOf("/") + 1);
         var deleteObjectRequest = DeleteObjectRequest.builder()

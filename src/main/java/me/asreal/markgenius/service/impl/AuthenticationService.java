@@ -23,6 +23,7 @@ public class AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
     private final EmailService emailService;
+    private final FileUploadServiceImpl fileUploadService;
 
     public UserAccount signup(RegisterUserDto registerUserDto) {
         var userAccount = new  UserAccount(
@@ -66,6 +67,8 @@ public class AuthenticationService {
                 userAccount.setEnabled(true);
                 userAccount.setVerificationCode(null);
                 userAccount.setVerificationExpiration(null);
+                //Create projects folder in AWS
+                fileUploadService.createFolder(userAccount.getId() + "/projects");
                 //Save verified account
                 userAccountRepository.save(userAccount);
             } else {
