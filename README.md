@@ -21,6 +21,9 @@ ___
 
 **Backend**
 - 
-- Springboot & Springboot AI
-- MongoDB Database
+- Springboot
+- Spring Security
+- Spring AI
 - OpenAI API
+- AWS
+- Supabase 
