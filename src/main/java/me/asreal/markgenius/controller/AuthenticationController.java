@@ -1,11 +1,11 @@
 package me.asreal.markgenius.controller;
 
 import lombok.AllArgsConstructor;
-import me.asreal.markgenius.dto.LoginUserDto;
-import me.asreal.markgenius.dto.RegisterUserDto;
-import me.asreal.markgenius.dto.VerifyUserDto;
+import me.asreal.markgenius.io.request.dto.LoginUserDto;
+import me.asreal.markgenius.io.request.dto.RegisterUserDto;
+import me.asreal.markgenius.io.request.dto.VerifyUserDto;
 import me.asreal.markgenius.entity.UserAccount;
-import me.asreal.markgenius.responses.LoginResponse;
+import me.asreal.markgenius.io.response.LoginResponse;
 import me.asreal.markgenius.service.impl.AuthenticationService;
 import me.asreal.markgenius.service.impl.JwtService;
 import org.springframework.http.ResponseEntity;

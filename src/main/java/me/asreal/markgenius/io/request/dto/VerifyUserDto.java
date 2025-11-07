@@ -1,4 +1,4 @@
-package me.asreal.markgenius.dto;
+package me.asreal.markgenius.io.request.dto;
 
 import lombok.Getter;
 import lombok.Setter;

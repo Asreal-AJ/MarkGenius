@@ -23,7 +23,6 @@ public class FileUploadServiceImpl implements FileUploadService {
     private String bucketName;
     private final S3Client s3Client;
 
-    //TODO: Make it so that folders are handled as well
     @Override
     public String uploadFile(MultipartFile file) {
         var filenameExtension = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));

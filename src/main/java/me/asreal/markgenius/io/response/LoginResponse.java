@@ -1,4 +1,4 @@
-package me.asreal.markgenius.responses;
+package me.asreal.markgenius.io.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -2,11 +2,12 @@ package me.asreal.markgenius.service.impl;
 
 import jakarta.mail.MessagingException;
 import lombok.AllArgsConstructor;
-import me.asreal.markgenius.dto.LoginUserDto;
-import me.asreal.markgenius.dto.RegisterUserDto;
-import me.asreal.markgenius.dto.VerifyUserDto;
+import me.asreal.markgenius.io.request.dto.LoginUserDto;
+import me.asreal.markgenius.io.request.dto.RegisterUserDto;
+import me.asreal.markgenius.io.request.dto.VerifyUserDto;
 import me.asreal.markgenius.entity.UserAccount;
 import me.asreal.markgenius.repository.UserAccountRepository;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -25,6 +26,7 @@ public class AuthenticationService {
     private final EmailService emailService;
     private final FileUploadServiceImpl fileUploadService;
 
+    @CachePut(value = "USER_ACCOUNT", key = "#result.id()")
     public UserAccount signup(RegisterUserDto registerUserDto) {
         var userAccount = new  UserAccount(
                 registerUserDto.getUsername(),
@@ -38,6 +40,7 @@ public class AuthenticationService {
         return userAccountRepository.save(userAccount);
     }
 
+    @CachePut(value = "USER_ACCOUNT", key = "#result.id()")
     public UserAccount authenticate(LoginUserDto loginUserDto) {
         var userAccount = userAccountRepository.findByEmail(loginUserDto.getEmail()).orElseThrow(() -> new RuntimeException("User not found"));//Get account by email
         if (!userAccount.isEnabled()) {
@@ -55,7 +58,7 @@ public class AuthenticationService {
 
     public void verifyUser(VerifyUserDto verifyUserDto) {
         var optionalUserAccount = userAccountRepository.findByEmail(verifyUserDto.getEmail());
-        //Check if there's a user to verify
+        //Check if there's a user to verify0
         if (optionalUserAccount.isPresent()) {
             var userAccount = optionalUserAccount.get();
             //Check if verification is expired
