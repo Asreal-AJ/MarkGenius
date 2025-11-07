@@ -26,4 +26,5 @@ ___
 - Spring AI
 - OpenAI API
 - AWS
-- Supabase 
+- Supabase
+- Redis
