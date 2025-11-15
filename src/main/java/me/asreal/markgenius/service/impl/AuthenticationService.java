@@ -8,6 +8,7 @@ import me.asreal.markgenius.io.request.dto.VerifyUserDto;
 import me.asreal.markgenius.entity.UserAccount;
 import me.asreal.markgenius.repository.UserAccountRepository;
 import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
